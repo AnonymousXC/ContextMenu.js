@@ -9,17 +9,17 @@ const ContextMenu = function(options) {
         addHtml : async () => {
             let html = `
             <div id="ContextMenu-Body">
-                <button class="ContextMenu-Buttons">Back</button>
-                <button class="ContextMenu-Buttons">Forward</button>
-                <button class="ContextMenu-Buttons">Reload</button>
+                <button class="ContextMenu-Buttons" onclick="history.back()">Back</button>
+                <button class="ContextMenu-Buttons" onclick="history.forward()">Forward</button>
+                <button class="ContextMenu-Buttons" onclick="location.reload()">Reload</button>
                 <hr class="ContextMenu-hr">
-                <button class="ContextMenu-Buttons">Open Image in New Tab</button>
-                <button class="ContextMenu-Buttons">Copy Image Link</button>
-                <button class="ContextMenu-Buttons">Email Image...</button>
+                <button class="ContextMenu-Buttons">Cut</button>
+                <button class="ContextMenu-Buttons">Copy</button>
+                <button class="ContextMenu-Buttons">Paste</button>
                 <hr class="ContextMenu-hr">
                 <button class="ContextMenu-Buttons">Bookmark Page</button>
-                <button class="ContextMenu-Buttons">Save Page As...</button>
-                <button class="ContextMenu-Buttons">Select All</button>
+                <button class="ContextMenu-Buttons" >Save Page As...</button>
+                <button class="ContextMenu-Buttons" onclick="selAll()">Select All</button>
                 <hr class="ContextMenu-hr">
                 <button class="ContextMenu-Buttons">Take Screenshot</button>
                 <hr class="ContextMenu-hr">
@@ -43,6 +43,7 @@ const ContextMenu = function(options) {
                         padding: 8px;
                         border-radius: 10px;
                         border: 1.5px solid rgba(255,255,255,0.5);
+                        user-select: none !important;
                     }
                     .ContextMenu-Buttons {
                         position: relative;
@@ -84,13 +85,30 @@ const ContextMenu = function(options) {
                 menu.style.top = e.clientY + "px";
             });
             htmlElm.addEventListener("click", (e) => {
-                if(menu === e.target || menu.contains(e.target)) return;
+                if(menu === e.target) return;
                 menu.style.display = "none";
             })
         }
     }
 
+
     functions.addHtml();
     functions.addStyles();
     functions.startup();
+}
+
+// function goBack() {
+//     history.back();
+// }
+
+// function goForward() {
+//     history.forward();
+// }
+
+// function reloadPage() {
+//     location.reload()
+// }
+
+function selAll() {
+    document.execCommand("selectAll")
 }
