@@ -11,6 +11,22 @@
 </body>
 <script src="ContextMenu.js"></script>
 <script>
-    let x = new ContextMenu();
+    let x = new ContextMenu({
+        removeDefaultMenu: false,
+        addAtLast: true,
+        menu: [
+            {
+                seperator: true,
+            },
+            {
+                name: "first",
+                cmd: "ContextMenuFunction.reloadPage()"
+            },
+            {
+                name: "second",
+                cmd: "ContextMenuFunction.reloadPage()"
+            },
+        ]
+    });
 </script>
 </html>

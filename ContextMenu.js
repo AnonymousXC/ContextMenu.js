@@ -2,29 +2,38 @@
 const ContextMenu = function(options) {
 
     this.options = options;
+    this.menu = this.options.menu;
     let isMenuAdded = false;
 
     const functions = {
 
         addHtml : async () => {
+            let customMenu = ``;
+            for (let i = 0; i < this.menu.length; i++) {
+                const ele = this.menu[i];
+                if(ele.seperator === true)
+                    customMenu += `<hr class="ContextMenu-hr">`;
+                else
+                    customMenu += `<button class="ContextMenu-Buttons" onclick="${ele.cmd}">${ele.name}</button>`
+            }
             let html = `
             <div id="ContextMenu-Body">
-                <button class="ContextMenu-Buttons" onclick="history.back()">Back</button>
-                <button class="ContextMenu-Buttons" onclick="history.forward()">Forward</button>
-                <button class="ContextMenu-Buttons" onclick="location.reload()">Reload</button>
+                ${customMenu && this.options.addAtLast === false ? customMenu: ""}
+                ${this.options.removeDefaultMenu ? "" : `<button class="ContextMenu-Buttons" onclick="ContextMenuFunction.goBack()">Back</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.goForward()">Forward</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.reloadPage()">Reload</button>
                 <hr class="ContextMenu-hr">
-                <button class="ContextMenu-Buttons">Cut</button>
-                <button class="ContextMenu-Buttons">Copy</button>
-                <button class="ContextMenu-Buttons">Paste</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.cut()">Cut</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.copy()">Copy</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.paste()">Paste</button>
                 <hr class="ContextMenu-hr">
                 <button class="ContextMenu-Buttons">Bookmark Page</button>
                 <button class="ContextMenu-Buttons" >Save Page As...</button>
-                <button class="ContextMenu-Buttons" onclick="selAll()">Select All</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.selectAll()">Select All</button>
                 <hr class="ContextMenu-hr">
-                <button class="ContextMenu-Buttons">Take Screenshot</button>
-                <hr class="ContextMenu-hr">
-                <button class="ContextMenu-Buttons">View Page Source</button>
-                <button class="ContextMenu-Buttons">Inspect</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.showSource()">View Page Source</button>
+                <button class="ContextMenu-Buttons" onclick="ContextMenuFunction.openConsole()">Inspect</button>`}
+                ${customMenu && this.options.addAtLast === true ? customMenu: ""}
             </div>
             `;
             document.body.insertAdjacentHTML("beforeend", html);
@@ -87,7 +96,13 @@ const ContextMenu = function(options) {
             htmlElm.addEventListener("click", (e) => {
                 if(menu === e.target) return;
                 menu.style.display = "none";
+            });
+            htmlElm.addEventListener("selectstart", (e) => {
+                menu.style.display = "none";
             })
+            menu.addEventListener("blur", (e) => {
+                menu.style.display = "none";
+            });
         }
     }
 
@@ -97,18 +112,32 @@ const ContextMenu = function(options) {
     functions.startup();
 }
 
-// function goBack() {
-//     history.back();
-// }
-
-// function goForward() {
-//     history.forward();
-// }
-
-// function reloadPage() {
-//     location.reload()
-// }
-
-function selAll() {
-    document.execCommand("selectAll")
+const ContextMenuFunction = {
+    goBack: () => {
+        history.back(); 
+    },
+    goForward: () => {
+        history.forward(); 
+    },
+    reloadPage: () => {
+        location.reload();
+    },
+    selectAll: () => {
+        document.execCommand("selectAll");
+    },
+    cut: () => {
+        document.execCommand("cut");
+    },
+    copy: () => {
+        document.execCommand("copy");
+    },
+    paste: () => {
+        document.execCommand("paste");
+    },
+    showSource: () => {
+        javascript:void(window.open("view-source:" + window.location))
+    },
+    openConsole: () => {
+        
+    }
 }
