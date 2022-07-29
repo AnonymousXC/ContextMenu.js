@@ -48,11 +48,12 @@ const ContextMenu = function(options) {
                         display: none;
                         width: 200px;
                         max-width: max-content;
-                        background-color: rgba(28,28,30, 0.85);
+                        background-color: rgba(28,28,30, 0.95);
                         padding: 8px;
                         border-radius: 10px;
                         border: 1.5px solid rgba(255,255,255,0.5);
                         user-select: none !important;
+                        animation: opd 200ms;
                     }
                     .ContextMenu-Buttons {
                         position: relative;
@@ -68,16 +69,21 @@ const ContextMenu = function(options) {
                         border-radius: 12px;
                         padding-left: 12px;
                         outline: none !important;
+                        cursor: pointer;
                     }
                     .ContextMenu-hr {
                         width: 90%;
                         border: 0.1px solid rgba(255,255,255,0.4);
                         border-radius: 5px;
-                        margin-left: 10px;
+                        margin: 5px 0px 5px 10px;
                     }
                     .ContextMenu-Buttons:hover {
                         background-color: rgb(10, 132, 255);
                     }
+                    @keyframes opd {
+                        from {opacity: 0;}
+                        to {opacity: 1;}
+                      }
                 </style>
             `;
             document.head.insertAdjacentHTML("beforeend", style)
@@ -89,9 +95,10 @@ const ContextMenu = function(options) {
             let menu = document.getElementById("ContextMenu-Body");
             htmlElm.addEventListener("contextmenu", (e) => {
                 e.preventDefault();
-                menu.style.display = "block";
+                if(menu.style.display == "block") menu.style.display = "none";
                 menu.style.left = e.clientX + "px";
                 menu.style.top = e.clientY + "px";
+                menu.style.display = "block";
             });
             htmlElm.addEventListener("click", (e) => {
                 if(menu === e.target) return;
