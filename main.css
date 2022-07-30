@@ -1,0 +1,13 @@
+#socials {
+    width: 100vw !important;
+    background-color: #fff;
+    padding-bottom: 8px;
+}
+
+
+@media screen and (max-height: 600px) {
+    #socials {
+        position: absolute;
+        bottom: 0% !important;
+    }
+}
