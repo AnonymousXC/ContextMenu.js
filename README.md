@@ -69,3 +69,9 @@ let menu = new ContextMenu({
 - menu :- (array of objects) custom menu structure.
     - name :- (String) name of context menu button.
     - cmd :- (String) name of function when button pressed.
+
+- `#ContextMenu-Body` :- (css id) customize body of context menu.
+
+- `.ContextMenu-Buttons` :- (css class) customize buttons of context menu.
+
+- `.ContextMenu-hr` :- (css class) customize seperator of context menu.
